@@ -15,6 +15,7 @@
 - S3: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_BUCKET_NAME` (и при необходимости `S3_ENDPOINT`)
 - Ozon: `OZON_CLIENT_ID`, `OZON_API_KEY`, опционально `OZON_MOCK=0|1`
 - OpenAI: `OPENAI_API_KEY`, опционально `OPENAI_MODEL` (по умолчанию `gpt-5`)
+- DaData: `DADATA_API_KEY` (используется фронтом на серверной стороне для автозаполнения юр.лица по ИНН)
 - Прочие (SMS/Яндекс/Логистика/Оплаты) — см. `protekauto-cms/stack.env`
 
 Frontend (если нужен доступ к CMS):

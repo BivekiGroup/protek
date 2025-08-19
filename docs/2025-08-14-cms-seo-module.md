@@ -59,3 +59,4 @@
   - Использование на странице:
     - `export const getServerSideProps = getServerMetaProps;`
     - В компоненте: `const meta = metaFromCms ?? getMetaByPath('/path'); <MetaTags {...meta} />`
+

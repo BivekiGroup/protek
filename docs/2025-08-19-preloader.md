@@ -22,3 +22,7 @@
   - Причина: счётчик активных запросов не уменьшался при `error`/`unsubscribe`.
   - Фикс: `activityLink` реализован через `Observable`, декремент счётчика делается в ветках `error`, `complete` и в cleanup.
   - Файлы: `protekauto-frontend/src/lib/apollo.ts`, `protekauto-cms/src/lib/apollo-client.ts`.
+
+- Неконтролируемые исключения на страницах (ApolloError в стэке):
+  - Добавлен глобальный ErrorBoundary на фронте, который перехватывает ошибки рендера и показывает аккуратный фуллскрин-оверлей вместо падения.
+  - Файлы: `protekauto-frontend/src/components/ErrorBoundary.tsx`, подключение в `src/pages/_app.tsx`.

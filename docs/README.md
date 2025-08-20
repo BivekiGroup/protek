@@ -15,3 +15,4 @@
  - [SEO: robots.txt и sitemap.xml — 2025‑08‑14](./2025-08-14-seo-robots-sitemap.md)
  - [CMS: перенос «ZZAP статистика» в «Инструменты» — 2025‑08‑20](./2025-08-20-cms-zzap-tools.md)
  - [CMS: кнопка «Открыть на сайте» в каталоге — 2025‑08‑20](./2025-08-20-cms-catalog-open-on-site.md)
+ - [Frontend: правки адаптивности блока «Лучшая цена» — 2025‑08‑20](./2025-08-20-frontend-best-price-responsive.md)

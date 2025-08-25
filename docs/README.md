@@ -17,3 +17,11 @@
  - [CMS: перенос «ZZAP статистика» в «Инструменты» — 2025‑08‑20](./2025-08-20-cms-zzap-tools.md)
  - [CMS: кнопка «Открыть на сайте» в каталоге — 2025‑08‑20](./2025-08-20-cms-catalog-open-on-site.md)
  - [Frontend: правки адаптивности блока «Лучшая цена» — 2025‑08‑20](./2025-08-20-frontend-best-price-responsive.md)
+ - [Frontend: переход в карточку с главной — 2025‑08‑24](./2025-08-24-frontend-card-navigation.md)
+ - [Card page: корректные фото товара — 2025‑08‑24](./2025-08-24-card-page-images-fix.md)
+ - [CMS: API интеграция 1С — каталог — 2025‑08‑24](./2025-08-24-cms-1c-catalog-api.md)
+  - CMS админка: документация «1С: Каталог» доступна по маршруту `/dashboard/integrations/1c-catalog`
+- [Frontend: защита /profile-history — 2025‑08‑24](./2025-08-24-frontend-profile-auth.md)
+- [Frontend: модалка комментария в гараже — 2025‑08‑24](./2025-08-24-frontend-garage-comment-modal.md)
+- [Frontend: /profile-set — улучшение формы юрлица — 2025‑08‑24](./2025-08-24-frontend-profile-set-legal-entity-ui.md)
+ - [CMS: фикc мутации deleteProduct — 2025‑08‑25](./2025-08-25-cms-delete-product-fix.md)

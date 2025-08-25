@@ -23,7 +23,15 @@
  - 2025-08-24 — Frontend: защита /profile-history (редирект на /login-required без токена) — 0.1 ч
  - 2025-08-24 — Frontend: модалка редактирования комментария авто в гараже — 0.3 ч
  - 2025-08-24 — Карточка: скрытие последнего мокап-фото — полное исключение плейсхолдеров при наличии реальных — 0.2 ч
- - 2025-08-24 — Frontend: /profile-set — улучшение формы юрлица (primary кнопка «Получить по ИНН», карточка «Данные найдены», без подписи DaData, фикc опечатки «налогообложение») — 0.3 ч
+- 2025-08-24 — Frontend: /profile-set — улучшение формы юрлица (primary кнопка «Получить по ИНН», карточка «Данные найдены», без подписи DaData, фикc опечатки «налогообложение») — 0.3 ч
+ - 2025-08-25 — CMS: политика stack.env + правки DEPLOYMENT/README + .gitignore — 0.5 ч
+ - 2025-08-25 — CMS: синхронизация env (env_file в compose, scripts/sync-env.sh, npm env:check/env:sync, DEPLOYMENT.md) — 1.5 ч
+ - 2025-08-25 — CMS: подготовка и публикация в BivekiGroup/protek-cms (санитизация stack.env, stack.env.local, push) — 0.5 ч
+ - 2025-08-25 — CMS: фиксы сборки/типов (Prisma уникальный ключ article+brand; заглушки PartsIndex/PartsAPI; иконка Clock title) — 2.0 ч
+ - 2025-08-25 — Frontend: синхронизация env (env_file, scripts/sync-env.sh, stack.example.env, README) — 1.0 ч
+ - 2025-08-25 — Frontend: вынос во внешний репозиторий (git subtree → BivekiGroup/protek-front) — 0.3 ч
+ - 2025-08-25 — Frontend: карточка — безопасный HTML для описания, вывод характеристик, вес/габариты (CMS → PartsIndex при отсутствии) — 1.5 ч
+ - 2025-08-25 — Frontend: устранение регрессии карточки (возврат совместимого GraphQL запроса) + док‑файл — 0.7 ч
 
 ## Итого по дням
 
@@ -40,4 +48,4 @@
 - 2025-08-24: 4.7 ч
  - 2025-08-25 — CMS: фикc GraphQL deleteProduct (резолвер, аудит) — 0.2 ч
 
-Общий итог: 36.5 ч
+Общий итог: 44.5 ч

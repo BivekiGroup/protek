@@ -66,3 +66,7 @@
 - 2025-08-28 — CMS: Чат с ИИ → Polza.ai — переведён бэкенд-роут на Polza.ai (OpenAI-совместимый endpoint), поддержан SSE и fallback на JSON, конфиг через POLZA_AI_* — 1.2 ч
 - 2025-08-28 — CMS/Frontend: удалён OpenAI/Vercel AI SDK — вычищены зависимости и импорты, чат на фронте переписан на нативный стрим `fetch + ReadableStream` — 1.0 ч
 - 2025-08-28 — ENV: обновлён `.env` и `.env.example` — добавлены `POLZA_AI_API_KEY`, `POLZA_AI_MODEL`, `POLZA_AI_BASE_URL`, удалены `OPENAI_*` — 0.2 ч
+- 2025-08-28 — 1C API: products — убран `retailPrice`, поле `price` трактуется как продажная цена, обязательен `category_code`, `externalId` по умолчанию = `article+"_"+brand` (lowercase), привязка к категории по `category_code` — 1.3 ч
+- 2025-08-28 — 1C API: новые эндпоинты — `POST /api/1c/catalog/categories`, `POST /api/1c/catalog/prices`, `POST /api/1c/catalog/stocks`, `GET /api/1c/catalog/visits`, `GET /api/1c/catalog/clients` — 2.0 ч
+- 2025-08-28 — CMS Docs: интеграция 1С — обновлены схемы/примеры на `/dashboard/integrations/1c-catalog` (curl для категорий/цен/остатков/посещений/контрагентов, обновлён upsert товаров) — 0.7 ч
+- 2025-08-28 — Prisma: категория — добавлены поля `code` (unique), `headCode`, `headName`; указание на `npm run db:push` — 0.3 ч

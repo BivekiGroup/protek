@@ -101,13 +101,25 @@ const CartSummary: React.FC<CartSummaryProps> = ({ step, setStep }) => {
     }
   }, [step, selectedLegalEntity, selectedLegalEntityId, isIndividual, selectedDeliveryAddress, recipientName, recipientPhone, paymentMethod, consent]);
 
-  // Инициализация данных получателя
+  // Инициализация данных получателя и юридического лица
   useEffect(() => {
-    if (clientData?.clientMe && !recipientName && !recipientPhone) {
-      setRecipientName(clientData.clientMe.name || '');
-      setRecipientPhone(clientData.clientMe.phone || '');
+    if (clientData?.clientMe) {
+      // Устанавливаем данные получателя, если они не заданы
+      if (!recipientName && !recipientPhone) {
+        setRecipientName(clientData.clientMe.name || '');
+        setRecipientPhone(clientData.clientMe.phone || '');
+      }
+      
+      // Автоматически выбираем первое юридическое лицо, если оно есть
+      const legalEntities = clientData.clientMe.legalEntities || [];
+      if (legalEntities.length > 0 && isIndividual && !selectedLegalEntity) {
+        const firstEntity = legalEntities[0];
+        setIsIndividual(false);
+        setSelectedLegalEntity(firstEntity.shortName || firstEntity.fullName);
+        setSelectedLegalEntityId(firstEntity.id);
+      }
     }
-  }, [clientData, recipientName, recipientPhone]);
+  }, [clientData, recipientName, recipientPhone, isIndividual, selectedLegalEntity]);
 
   // Закрытие dropdown при клике вне их
   useEffect(() => {
@@ -279,7 +291,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ step, setStep }) => {
         <div className="cart-detail-info">
           {/* Тип клиента - показываем всегда */}
           <div className="w-layout-vflex flex-block-58" style={{ position: 'relative' }} ref={legalEntityDropdownRef}>
-            <div className="text-block-31">Тип клиента</div>
+            <div className="text-block-31">Юридическое лицо</div>
             <div 
               className="w-layout-hflex flex-block-62" 
               onClick={() => setShowLegalEntityDropdown(!showLegalEntityDropdown)}
@@ -295,7 +307,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ step, setStep }) => {
               </div>
             </div>
             
-            {/* Dropdown список типов клиента */}
+            {/* Dropdown список типов клиента - только юридические лица */}
             {showLegalEntityDropdown && (
               <div style={{
                 position: 'absolute',
@@ -310,39 +322,8 @@ const CartSummary: React.FC<CartSummaryProps> = ({ step, setStep }) => {
                 maxHeight: '200px',
                 overflowY: 'auto'
               }}>
-                {/* Опция физического лица */}
-                <div
-                  onClick={() => {
-                    setIsIndividual(true);
-                    setSelectedLegalEntity('');
-                    setSelectedLegalEntityId('');
-                    setPaymentMethod('yookassa'); // Для физ лица только ЮКасса
-                    setShowLegalEntityDropdown(false);
-                  }}
-                  style={{
-                    padding: '12px 16px',
-                    cursor: 'pointer',
-                    borderBottom: '1px solid #f0f0f0',
-                    backgroundColor: isIndividual ? '#f8f9fa' : 'white',
-                    fontSize: '14px',
-                    
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isIndividual) {
-                      e.currentTarget.style.backgroundColor = '#f8f9fa';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isIndividual) {
-                      e.currentTarget.style.backgroundColor = 'white';
-                    }
-                  }}
-                >
-                  Физическое лицо
-                </div>
-
-                {/* Юридические лица (если есть) */}
-                {clientData?.clientMe?.legalEntities && clientData.clientMe.legalEntities.length > 0 && 
+                {/* Только юридические лица */}
+                {clientData?.clientMe?.legalEntities && clientData.clientMe.legalEntities.length > 0 ? (
                   clientData.clientMe.legalEntities.map((entity: any, index: number) => (
                     <div
                       key={entity.id}
@@ -350,7 +331,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ step, setStep }) => {
                         setIsIndividual(false);
                         setSelectedLegalEntity(entity.shortName || entity.fullName);
                         setSelectedLegalEntityId(entity.id);
-                        setPaymentMethod('yookassa'); // По умолчанию ЮКасса для юр лица
+                        setPaymentMethod('yookassa');
                         setShowLegalEntityDropdown(false);
                       }}
                       style={{
@@ -374,7 +355,19 @@ const CartSummary: React.FC<CartSummaryProps> = ({ step, setStep }) => {
                       {entity.shortName || entity.fullName}
                     </div>
                   ))
-                }
+                ) : (
+                  <div style={{
+                    padding: '12px 16px',
+                    fontSize: '14px',
+                    color: '#666',
+                    textAlign: 'center'
+                  }}>
+                    <div style={{ marginBottom: '8px' }}>Юридические лица не найдены</div>
+                    <Link href="/profile-set" style={{ color: '#e74c3c', textDecoration: 'underline' }}>
+                      Добавить юридическое лицо
+                    </Link>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -663,17 +656,69 @@ const CartSummary: React.FC<CartSummaryProps> = ({ step, setStep }) => {
             </h4>
           </div>
 
-          <button 
-            className="submit-button fill w-button" 
-            onClick={handleProceedToStep2}
-            disabled={summary.totalItems === 0 || !consent}
-            style={{ 
-              opacity: summary.totalItems === 0 || !consent ? 0.5 : 1,
-              cursor: summary.totalItems === 0 || !consent ? 'not-allowed' : 'pointer'
-            }}
-          >
-            Оформить заказ
-          </button>
+{(() => {
+            // Проверяем наличие юридических лиц у пользователя
+            const hasLegalEntities = clientData?.clientMe?.legalEntities?.length > 0;
+            
+            if (isIndividual && !hasLegalEntities) {
+              return (
+                <div className="flex flex-col gap-3">
+                  <button 
+                    className="submit-button fill w-button"
+                    disabled={true}
+                    style={{ 
+                      opacity: 0.5,
+                      cursor: 'not-allowed',
+                      backgroundColor: '#ccc'
+                    }}
+                  >
+                    Оформить заказ
+                  </button>
+                  <div style={{ fontSize: '14px', color: '#e74c3c', textAlign: 'center' }}>
+                    Заказы может оформлять только юридическое лицо.{' '}
+                    <Link href="/profile-set" style={{ color: '#e74c3c', textDecoration: 'underline' }}>
+                      Добавьте юридическое лицо
+                    </Link> в настройках профиля.
+                  </div>
+                </div>
+              );
+            }
+            
+            if (isIndividual && hasLegalEntities) {
+              return (
+                <div className="flex flex-col gap-3">
+                  <button 
+                    className="submit-button fill w-button"
+                    disabled={true}
+                    style={{ 
+                      opacity: 0.5,
+                      cursor: 'not-allowed',
+                      backgroundColor: '#ccc'
+                    }}
+                  >
+                    Оформить заказ
+                  </button>
+                  <div style={{ fontSize: '14px', color: '#e74c3c', textAlign: 'center' }}>
+                    Выберите юридическое лицо для оформления заказа
+                  </div>
+                </div>
+              );
+            }
+            
+            return (
+              <button 
+                className="submit-button fill w-button" 
+                onClick={handleProceedToStep2}
+                disabled={summary.totalItems === 0 || !consent}
+                style={{ 
+                  opacity: summary.totalItems === 0 || !consent ? 0.5 : 1,
+                  cursor: summary.totalItems === 0 || !consent ? 'not-allowed' : 'pointer'
+                }}
+              >
+                Оформить заказ
+              </button>
+            );
+          })()}
 
           {error && <div style={{ color: 'red', marginTop: 10 }}>{error}</div>}
 

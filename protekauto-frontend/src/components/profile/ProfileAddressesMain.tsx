@@ -1,7 +1,9 @@
 import * as React from "react";
 import { useQuery, useMutation } from "@apollo/client";
+import toast from 'react-hot-toast';
 import ProfileAddressCard from "./ProfileAddressCard";
 import ProfileAddressWayWithMap from "./ProfileAddressWayWithMap";
+import ConfirmationModal from "../ConfirmationModal";
 import { GET_CLIENT_DELIVERY_ADDRESSES, DELETE_CLIENT_DELIVERY_ADDRESS } from "@/lib/graphql";
 
 interface DeliveryAddress {
@@ -34,6 +36,8 @@ const ProfileAddressesMain = () => {
   const [mainIndex, setMainIndex] = React.useState(0);
   const [showWay, setShowWay] = React.useState(false);
   const [editingAddress, setEditingAddress] = React.useState<DeliveryAddress | null>(null);
+  const [showConfirmModal, setShowConfirmModal] = React.useState(false);
+  const [addressToDelete, setAddressToDelete] = React.useState<{ id: string, name: string } | null>(null);
 
   const { data, loading, error, refetch } = useQuery(GET_CLIENT_DELIVERY_ADDRESSES, {
     errorPolicy: 'all'
@@ -45,20 +49,27 @@ const ProfileAddressesMain = () => {
     },
     onError: (error) => {
       console.error('Ошибка удаления адреса:', error);
-      alert('Ошибка удаления адреса: ' + error.message);
+      toast.error('Ошибка удаления адреса: ' + error.message);
     }
   });
 
-  const handleDeleteAddress = async (addressId: string) => {
-    if (confirm('Вы уверены, что хотите удалить этот адрес?')) {
+  const handleDeleteAddress = async (addressId: string, addressName: string) => {
+    setAddressToDelete({ id: addressId, name: addressName });
+    setShowConfirmModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (addressToDelete) {
       try {
         await deleteAddress({
-          variables: { id: addressId }
+          variables: { id: addressToDelete.id }
         });
+        toast.success(`Адрес "${addressToDelete.name}" удален`);
       } catch (error) {
         console.error('Ошибка удаления:', error);
       }
     }
+    setAddressToDelete(null);
   };
 
   const handleEditAddress = (address: DeliveryAddress) => {
@@ -119,7 +130,7 @@ const ProfileAddressesMain = () => {
               comment={addr.comment}
               onEdit={() => handleEditAddress(addr)}
               onSelectMain={() => setMainIndex(idx)}
-              onDelete={() => handleDeleteAddress(addr.id)}
+              onDelete={() => handleDeleteAddress(addr.id, addr.name)}
               isMain={mainIndex === idx}
             />
           ))}
@@ -146,6 +157,20 @@ const ProfileAddressesMain = () => {
           </div>
         </div>
       )}
+      
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onClose={() => {
+          setShowConfirmModal(false);
+          setAddressToDelete(null);
+        }}
+        onConfirm={confirmDelete}
+        title="Удаление адреса"
+        message={`Вы уверены, что хотите удалить адрес "${addressToDelete?.name}"? Это действие нельзя отменить.`}
+        confirmText="Удалить"
+        cancelText="Отменить"
+        variant="danger"
+      />
     </div>
   );
 };

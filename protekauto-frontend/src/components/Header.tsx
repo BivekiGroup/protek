@@ -14,9 +14,10 @@ import { GET_RECENT_SEARCH_QUERIES, PartsSearchHistoryItem } from '@/lib/graphql
 
 interface HeaderProps {
   onOpenAuthModal?: () => void;
+  authTrigger?: number;
 }
 
-const Header: React.FC<HeaderProps> = ({ onOpenAuthModal = () => console.log('Auth modal action not provided') }) => {
+const Header: React.FC<HeaderProps> = ({ onOpenAuthModal = () => console.log('Auth modal action not provided'), authTrigger }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<Client | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -164,7 +165,7 @@ const Header: React.FC<HeaderProps> = ({ onOpenAuthModal = () => console.log('Au
         localStorage.removeItem('userData');
       }
     }
-  }, [isClient]);
+  }, [isClient, authTrigger]);
 
   useEffect(() => {
     const bottomHead = document.querySelector('.bottom_head');

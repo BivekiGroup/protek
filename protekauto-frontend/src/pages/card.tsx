@@ -139,7 +139,9 @@ export default function CardPage() {
             name: result.name,
             isAnalog: false,
             deliveryTime: offer.deliveryDays,
-            sortPrice: offer.price
+            sortPrice: offer.price,
+            // Рекомендуем внутренние предложения (наши) и поднимаем их выше
+            recommended: !!offer.available
           });
         }
       });
@@ -157,14 +159,16 @@ export default function CardPage() {
             name: offer.name || result.name,
             isAnalog: false,
             deliveryTime: offer.deliveryTime,
-            sortPrice: offer.price
+            sortPrice: offer.price,
+            recommended: false
           });
         }
       });
     }
 
-    // Сортировка предложений
-    const sortedOffers = [...offers].sort((a, b) => {
+    // Сортировка предложений: сначала рекомендуемые (внутренние), затем остальные,
+    // внутри групп — по выбранному критерию
+    const comparator = (a: any, b: any) => {
       switch (sortBy) {
         case 'price':
           return a.sortPrice - b.sortPrice;
@@ -175,7 +179,14 @@ export default function CardPage() {
         default:
           return a.sortPrice - b.sortPrice;
       }
-    });
+    };
+
+    const rec = offers.filter(o => o.recommended);
+    const nonrec = offers.filter(o => !o.recommended);
+    const sortedOffers = [
+      ...rec.sort(comparator),
+      ...nonrec.sort(comparator),
+    ];
     
     return sortedOffers;
   }, [result, sortBy]);

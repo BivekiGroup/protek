@@ -113,7 +113,7 @@ const LegalEntityListBlock: React.FC<LegalEntityListBlockProps> = ({ legalEntiti
                   className="flex relative gap-1.5 items-center cursor-pointer group"
                   role="button"
                   tabIndex={0}
-                  onClick={() => router.push('/profile-req')}
+                  onClick={() => router.push('/profile-set')}
                 >
                   <div
                     layer-name="icon-wallet"
@@ -133,7 +133,7 @@ const LegalEntityListBlock: React.FC<LegalEntityListBlockProps> = ({ legalEntiti
                     className="text-sm leading-5 text-gray-600 group-hover:text-red-600"
                   >
                     Реквизиты компании
-                  </div>
+                </div>
                 </div>
 
               </div>

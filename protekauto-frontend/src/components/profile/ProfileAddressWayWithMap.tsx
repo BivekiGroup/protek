@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from 'react-hot-toast';
 import AddressFormWithPickup from "./AddressFormWithPickup";
 import AddressDetails from "./AddressDetails";
 import YandexPickupPointsMap from "../delivery/YandexPickupPointsMap";
@@ -179,11 +180,11 @@ const ProfileAddressWayWithMap: React.FC<ProfileAddressWayWithMapProps> = ({ onB
         },
         (error) => {
           console.error('Ошибка определения местоположения:', error);
-          alert('Не удалось определить местоположение');
+          toast.error('Не удалось определить местоположение');
         }
       );
     } else {
-      alert('Геолокация не поддерживается браузером');
+      toast.error('Геолокация не поддерживается браузером');
     }
   };
 

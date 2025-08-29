@@ -235,10 +235,10 @@ export const PROTEK_ORGANIZATION: SchemaOrgOrganization = {
     contactType: "customer service"
   },
   address: {
-    streetAddress: "ул. Примерная, 123",
+    streetAddress: "Походный проезд, д. 4, офис 211, 212",
     addressLocality: "Москва",
     addressRegion: "Москва",
-    postalCode: "123456",
+    postalCode: "125373",
     addressCountry: "RU"
   }
 };
@@ -251,7 +251,7 @@ export const PROTEK_LOCAL_BUSINESS: SchemaOrgLocalBusiness = {
     "Sa 10:00-16:00"
   ],
   geo: {
-    latitude: 55.7558,
-    longitude: 37.6176
+    latitude: 55.834502,
+    longitude: 37.419194
   }
 }; 

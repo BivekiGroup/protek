@@ -18,7 +18,10 @@ const LegalContacts = () => (
       </div>
       <div className="w-layout-hflex flex-block-75">
         <div className="text-block-36-copy">Почтовый адрес</div>
-        <div className="text-block-36">Московская обл., г. Дмитров, ул. Чекистская 6, комната 4</div>
+        <div className="text-block-36">
+          <div>г. Москва, Походный проезд, д. 4</div>
+          <div className="text-sm text-gray-600 mt-1">офис 211, 212 • 125373</div>
+        </div>
       </div>
     </div>
   </div>

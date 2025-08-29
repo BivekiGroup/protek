@@ -70,3 +70,8 @@
 - 2025-08-28 — 1C API: новые эндпоинты — `POST /api/1c/catalog/categories`, `POST /api/1c/catalog/prices`, `POST /api/1c/catalog/stocks`, `GET /api/1c/catalog/visits`, `GET /api/1c/catalog/clients` — 2.0 ч
 - 2025-08-28 — CMS Docs: интеграция 1С — обновлены схемы/примеры на `/dashboard/integrations/1c-catalog` (curl для категорий/цен/остатков/посещений/контрагентов, обновлён upsert товаров) — 0.7 ч
 - 2025-08-28 — Prisma: категория — добавлены поля `code` (unique), `headCode`, `headName`; указание на `npm run db:push` — 0.3 ч
+
+Дополнение (2025-08-29):
+
+- 2025-08-29 — CMS Docs: «Live‑тестер» для интеграции 1С — на странице `/dashboard/integrations/1c-catalog` добавлен интерактивный блок для отправки реальных запросов (ввод `X-API-Key`, выбор эндпоинта, `Idempotency-Key` для products, тело JSON для POST), показ статуса HTTP и форматированного JSON‑ответа — 0.8 ч
+- 2025-08-29 — CMS Docs: генератор батч‑примеров — возможность сгенерировать N (1–50) тестовых позиций для `POST /api/1c/catalog/products` (уникальные `externalId`/`article`) прямо из Live‑тестера — 0.4 ч

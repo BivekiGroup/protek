@@ -93,24 +93,31 @@ const CoreProductCard: React.FC<CoreProductCardProps> = ({
     return match ? `${match[0]} дней` : daysStr;
   };
 
-  // Функция сортировки предложений
+  // Функция сортировки предложений (рекомендуемые всегда первыми)
   const sortOffers = (offers: CoreProductCardOffer[]) => {
-    const sorted = [...offers];
-    
-    switch (sortBy) {
-      case 'stock':
-        return sorted.sort((a, b) => parseStock(b.pcs) - parseStock(a.pcs));
-      case 'delivery':
-        return sorted.sort((a, b) => {
+    const comparator = (a: CoreProductCardOffer, b: CoreProductCardOffer) => {
+      switch (sortBy) {
+        case 'stock':
+          return parseStock(b.pcs) - parseStock(a.pcs);
+        case 'delivery': {
           const aDelivery = a.deliveryTime || 999;
           const bDelivery = b.deliveryTime || 999;
           return aDelivery - bDelivery;
-        });
-      case 'price':
-        return sorted.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
-      default:
-        return sorted;
-    }
+        }
+        case 'price':
+          return parsePrice(a.price) - parsePrice(b.price);
+        default:
+          return 0;
+      }
+    };
+
+    const recommendedOffers = offers.filter(o => o.recommended);
+    const otherOffers = offers.filter(o => !o.recommended);
+
+    return [
+      ...recommendedOffers.sort(comparator),
+      ...otherOffers.sort(comparator),
+    ];
   };
 
   const sortedOffers = sortOffers(offers);

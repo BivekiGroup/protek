@@ -5,6 +5,7 @@ import CatalogSubscribe from '@/components/CatalogSubscribe';
 import MobileMenuBottomSection from "@/components/MobileMenuBottomSection";
 import LKMenu from '@/components/LKMenu';
 import ProfileSettingsMain from '@/components/profile/ProfileSettingsMain';
+import ProfileRequisitiesMain from '@/components/profile/ProfileRequisitiesMain';
 import ProfileInfo from '@/components/profile/ProfileInfo';
 import Head from "next/head";
 import MetaTags from "@/components/MetaTags";
@@ -23,7 +24,12 @@ const ProfileSettingsPage = () => {
         
         <div className="flex relative gap-8 items-start self-stretch max-md:gap-5 max-sm:flex-col max-sm:gap-4 justify-center mx-auto max-w-[1580px] w-full h-full">
           <LKMenu />
-          <ProfileSettingsMain />
+          <div className="flex flex-col flex-1 w-full">
+            <ProfileSettingsMain />
+            <div className="mt-5">
+              <ProfileRequisitiesMain showManageButton={false} />
+            </div>
+          </div>
         </div>
       </div>
       <section className="section-3">

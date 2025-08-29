@@ -37,7 +37,11 @@ interface ClientData {
   legalEntities: LegalEntity[];
 }
 
-const ProfileRequisitiesMain = () => {
+type Props = {
+  showManageButton?: boolean;
+};
+
+const ProfileRequisitiesMain = ({ showManageButton = true }: Props) => {
   const router = useRouter();
   const [selectedBankDetailId, setSelectedBankDetailId] = useState<string | null>(null);
   const [selectedLegalEntityId, setSelectedLegalEntityId] = useState<string | null>(null);
@@ -410,27 +414,64 @@ const ProfileRequisitiesMain = () => {
             
             {/* Выбор юридического лица */}
             {legalEntities.length > 1 && (
-              <div className="flex flex-col mt-4 w-full">
-                <div className="text-sm text-gray-950 mb-2">
-                  Юридическое лицо
+              <div className="flex flex-col mt-6 w-full">
+                <div className="text-base font-medium text-gray-950 mb-4">
+                  Выберите юридическое лицо
                   {editingBankDetail && (
-                    <span className="text-xs text-gray-500 ml-2">
+                    <span className="text-sm text-gray-500 ml-2 font-normal">
                       (при редактировании можно изменить привязку)
                     </span>
                   )}
                 </div>
-                <select
-                  value={selectedLegalEntityId || ''}
-                  onChange={(e) => setSelectedLegalEntityId(e.target.value)}
-                  className="gap-2.5 px-6 py-4 w-full bg-white rounded border border-solid border-stone-300 min-h-[52px] text-gray-600 outline-none "
-                >
-                  <option value="">Выберите юридическое лицо</option>
+                <div className="grid gap-3 max-w-2xl">
                   {legalEntities.map((entity) => (
-                    <option key={entity.id} value={entity.id}>
-                      {entity.shortName} (ИНН: {entity.inn})
-                    </option>
+                    <div
+                      key={entity.id}
+                      onClick={() => setSelectedLegalEntityId(entity.id)}
+                      className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                        selectedLegalEntityId === entity.id
+                          ? 'border-red-500 bg-red-50 shadow-sm'
+                          : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                            selectedLegalEntityId === entity.id
+                              ? 'border-red-500 bg-red-500'
+                              : 'border-gray-300'
+                          }`}>
+                            {selectedLegalEntityId === entity.id && (
+                              <div className="w-2 h-2 bg-white rounded-full"></div>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M3 9L12 4L21 9V20H15V13H9V20H3V9Z" stroke="#424F60" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            <div className="flex flex-col">
+                              <div className="font-semibold text-gray-900 text-base">
+                                {entity.shortName}
+                              </div>
+                              <div className="text-sm text-gray-500 font-mono">
+                                ИНН {entity.inn}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {entity.bankDetails && entity.bankDetails.length > 0 && (
+                          <div className="flex items-center gap-1.5 text-xs text-gray-400">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M2 6C2 5.44772 2.44772 5 3 5H21C21.5523 5 22 5.44772 22 6V18C22 18.5523 21.5523 19 21 19H3C2.44772 19 2 18.5523 2 18V6Z" stroke="currentColor" strokeWidth="1.5"/>
+                              <path d="M2 9H22" stroke="currentColor" strokeWidth="1.5"/>
+                            </svg>
+                            <span>{entity.bankDetails.length} счёт{entity.bankDetails.length === 1 ? '' : entity.bankDetails.length < 5 ? 'а' : 'ов'}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   ))}
-                </select>
+                </div>
               </div>
             )}
             
@@ -507,17 +548,18 @@ const ProfileRequisitiesMain = () => {
           </>
         )}
       </div>
-      <div className="flex overflow-hidden gap-10 items-center px-5 py-4 mt-5 w-full text-lg font-medium leading-tight text-center text-black bg-white rounded-2xl max-md:max-w-full">
-        <div 
-          className="gap-2.5 self-stretch px-10 py-6 my-auto text-black rounded-xl border cursor-pointer border-red-600 border-solid min-w-[240px] max-md:px-5 hover:bg-gray-50"
-          onClick={() => router.push('/profile-set')}
-        >
-          Управление юридическими лицами
+      {showManageButton && (
+        <div className="flex overflow-hidden gap-10 items-center px-5 py-4 mt-5 w-full text-lg font-medium leading-tight text-center text-black bg-white rounded-2xl max-md:max-w-full">
+          <div 
+            className="gap-2.5 self-stretch px-10 py-6 my-auto text-black rounded-xl border cursor-pointer border-red-600 border-solid min-w-[240px] max-md:px-5 hover:bg-gray-50"
+            onClick={() => router.push('/profile-set')}
+          >
+            Управление юридическими лицами
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
 export default ProfileRequisitiesMain;
-

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Header from "./Header";
 import AuthModal from "./auth/AuthModal";
@@ -7,6 +7,7 @@ import IndexTopMenuNav from "./index/IndexTopMenuNav";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authTrigger, setAuthTrigger] = useState(0);
   const router = useRouter();
 
   const handleAuthSuccess = (client: any, token?: string) => {
@@ -18,6 +19,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem('userData', JSON.stringify(client));
     }
     setAuthModalOpen(false);
+    // Триггерим обновление Header
+    setAuthTrigger(prev => prev + 1);
     router.push('/profile-orders');
   };
 
@@ -36,7 +39,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
     <header className="section-4">
-      <Header onOpenAuthModal={() => setAuthModalOpen(true)} />
+      <Header onOpenAuthModal={() => setAuthModalOpen(true)} authTrigger={authTrigger} />
       <AuthModal
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}

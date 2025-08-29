@@ -180,6 +180,21 @@ export const GET_CLIENT_ME = gql`
         createdAt
         updatedAt
       }
+      deliveryAddresses {
+        id
+        name
+        address
+        deliveryType
+        comment
+        entrance
+        floor
+        apartment
+        intercom
+        deliveryTime
+        contactPhone
+        createdAt
+        updatedAt
+      }
     }
   }
 `
@@ -1603,6 +1618,7 @@ export const GET_CLIENT_DELIVERY_ADDRESSES = gql`
   query GetClientDeliveryAddresses {
     clientMe {
       id
+      name
       deliveryAddresses {
         id
         name

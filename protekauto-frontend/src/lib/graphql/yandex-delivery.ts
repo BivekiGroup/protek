@@ -137,7 +137,7 @@ export interface YandexPickupPointSchedule {
 }
 
 export type YandexPickupPointType = 'pickup_point' | 'terminal' | 'post_office' | 'sorting_center';
-export type YandexPaymentMethod = 'already_paid' | 'card_on_receipt';
+export type YandexPaymentMethod = 'already_paid' | 'card_on_receipt' | 'bound_card';
 
 export interface YandexPickupPoint {
   id: string;

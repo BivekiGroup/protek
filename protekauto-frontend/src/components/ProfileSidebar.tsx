@@ -39,7 +39,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ activeItem }) => {
 
   const financeItems = [
     { id: 'balance', icon: 'wallet', label: 'Баланс', href: '/profile-balance' },
-    { id: 'requisites', icon: 'case', label: 'Реквизиты', href: '/profile-req' },
+    // Реквизиты объединены с настройками аккаунта на /profile-set
     { id: 'mutual', icon: 'finance_check', label: 'Взаиморасчеты', href: '/profile-mutual' },
     { id: 'acts', icon: 'order', label: 'Акты сверки', href: '/profile-acts' }
   ];
